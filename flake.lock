@@ -1,5 +1,23 @@
 {
   "nodes": {
+    "nix-eda": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1730710594,
+        "narHash": "sha256-FNZfCJxslpkT3HaIiLT63/EsEXU5MGCa7UjTHW1nmGw=",
+        "owner": "efabless",
+        "repo": "nix-eda",
+        "rev": "847b24fd5161a33b808ac827d747216c61cf7cd0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "efabless",
+        "repo": "nix-eda",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1717144377,
@@ -18,7 +36,7 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nix-eda": "nix-eda"
       }
     }
   },
