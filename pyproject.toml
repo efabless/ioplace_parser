@@ -11,15 +11,13 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS :: MacOS X",
 ]
-include = [
-    "_ioplace_parser_antlr/**/*.py"
-]
+include = ["_ioplace_parser_antlr/**/*.py"]
 
 [tool.poetry.build]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-antlr4-python3-runtime = "~=4.10.0"
+antlr4-python3-runtime = "~=4.9.0"
 
 [tool.poetry.dev-dependencies]
 wheel = "^0.38"
