@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1730710594,
-        "narHash": "sha256-FNZfCJxslpkT3HaIiLT63/EsEXU5MGCa7UjTHW1nmGw=",
+        "lastModified": 1730972444,
+        "narHash": "sha256-6wbOkA/YSF4bG9ZQHUm7zURm0ScwTGGWxH3oWjhBZZg=",
         "owner": "efabless",
         "repo": "nix-eda",
-        "rev": "847b24fd5161a33b808ac827d747216c61cf7cd0",
+        "rev": "faad81bfd90c90a8b61fc1934cb6413f5ec1cc0d",
         "type": "github"
       },
       "original": {
