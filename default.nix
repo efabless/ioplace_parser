@@ -1,46 +1,31 @@
 {
-  antlr4_10,
-  black,
   lib,
+  black,
   nix-gitignore,
   buildPythonPackage,
   poetry-core,
   setuptools,
   pytest,
   coverage,
+  antlr4_9,
+  antlr4_9-runtime,
 }:
-
-let
-  antlr4_10-python3-runtime = buildPythonPackage rec {
-    pname = "antlr4-python3-runtime";
-    inherit (antlr4_10.runtime.cpp) version src;
-
-    sourceRoot = "source/runtime/Python3";
-    
-    doCheck = false;
-
-    meta = with lib; {
-      description = "Runtime for ANTLR";
-      homepage = "https://www.antlr.org/";
-      license = licenses.bsd3;
-    };
-  };
-in buildPythonPackage {
+buildPythonPackage {
   name = "ioplace_parser";
   version = (builtins.fromTOML (builtins.readFile ./pyproject.toml)).tool.poetry.version;
   format = "pyproject";
 
   src = nix-gitignore.gitignoreSourcePure ./.gitignore ./.;
-  
+
   nativeBuildInputs = [
     poetry-core
-    antlr4_10
+    antlr4_9
   ];
 
   propagatedBuildInputs = [
-    antlr4_10-python3-runtime
+    antlr4_9-runtime
   ];
-  
+
   nativeCheckInputs = [
     pytest
     black
