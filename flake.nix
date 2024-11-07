@@ -13,37 +13,39 @@
 # limitations under the License.
 {
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/nixos-24.05;
+    nix-eda.url = github:efabless/nix-eda;
   };
 
   outputs = {
     self,
-    nixpkgs,
+    nix-eda,
     ...
-  }: {
-    # Helper functions
-    forAllSystems = function:
-      nixpkgs.lib.genAttrs [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ] (
-        system:
-          function (import nixpkgs {
-            inherit system;
-          })
-      );
+  }: let
+    nixpkgs = nix-eda.inputs.nixpkgs;
+    lib = nixpkgs.lib;
+  in {
+    overlays = {
+      default = lib.composeManyExtensions [
+        (nix-eda.composePythonOverlay (pkgs': pkgs: pypkgs': pypkgs: let
+          callPythonPackage = lib.callPackageWith (pkgs' // pkgs'.python3.pkgs);
+        in {
+          ioplace-parser = callPythonPackage ./default.nix {};
+        }))
+      ];
+    };
+
+    legacyPackages = nix-eda.forAllSystems (
+      system:
+        import nixpkgs {
+          inherit system;
+          overlays = [nix-eda.overlays.default self.overlays.default];
+        }
+    );
 
     # Outputs
-    packages = self.forAllSystems (pkgs: let
-      callPackage = pkgs.lib.callPackageWith (pkgs // self.packages.${pkgs.system});
-      callPythonPackage = pkgs.lib.callPackageWith (pkgs // pkgs.python3.pkgs // self.packages.${pkgs.system});
-    in
-      rec {
-        ioplace-parser = callPythonPackage ./default.nix {};
-        default = ioplace-parser;
-      }
-    );
+    packages = nix-eda.forAllSystems (system: {
+      inherit (self.legacyPackages.${system}.python3.pkgs) ioplace-parser;
+      default = self.packages.${system}.ioplace-parser;
+    });
   };
 }
